@@ -8,7 +8,7 @@ if (!login_check($conexion)) { //no estas autorizado
     if (isset($usuario, $password)) {
         if (login($usuario, $password, $conexion) == true) {
 // Éxito
-            $accion = "lista_centros"; //acción por defecto
+            $accion = "lista_fiestas"; //acción por defecto
             echo "<div class=\"logout\"> <a href=\"index.php?accion=logout\"> logout {$_SESSION['usuario']} </a></div>";
         } else {
 // Login error: no coinciden usuario y password
@@ -27,10 +27,10 @@ if (!login_check($conexion)) { //no estas autorizado
     }
     echo "<div class=\"logout\"> <a href=\"index.php?accion=logout\"> logout {$_SESSION['usuario']} </a></div>";
     if (!isset($accion)) {
-        $accion = 'lista_centros'; //acción por defecto $default_action = "lista_centros"
+        $accion = 'lista_fiestas'; //acción por defecto $default_action = "lista_fiestas"
     }
     if (!file_exists($accion . '.php')) { //comprobamos que el fichero exista
-        $accion = 'lista_centros'; //si no existe mostramos la página por defecto
+        $accion = 'lista_fiestas'; //si no existe mostramos la página por defecto
         echo "Operación no soportada: Podíamos mostrar la página 404";
     }
 }
