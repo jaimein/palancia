@@ -7,10 +7,10 @@ include 'conexion.php';
 if ($_POST) {
     // include conexión a la base de datos
     include 'conexion.php';
-    $postgrupo=$_POST['grupo'];
-    $posttipo=$_POST['tipo'];
-    $postfecha=$_POST['fecha'];
-    $postpoblacion=$_POST['poblacion'];
+    $postgrupo = $_POST['grupo'];
+    $posttipo = $_POST['tipo'];
+    $postfecha = $_POST['fecha'];
+    $postpoblacion = $_POST['poblacion'];
     //Añadir grupo si no existe
     if (!is_numeric($postgrupo)) {
         $insertgrupo = "INSERT INTO `palancia`.`grupo` (`id` ,`nombre`)VALUES (NULL , ?);";
@@ -26,25 +26,27 @@ if ($_POST) {
             die('Imposible guardar el registrodel grupo: ' . $conexion->error . 'Pongase en contacto con el administrador');
         }
         echo 'a ok';
-        $congrupos = "SELECT id FROM `grupo` WHERE nombre = ".$postgrupo;
-        echo 'ab ok';
-        if ($stmtcongrupos = $conexion->prepare($congrupos)) {
-            if (!$stmtcongrupos->execute()) {
-                die('Error de ejecución de la consulta. ' . $conexion->error.'afsdgas');
-            };
-            $stmtqcongrupos->bind_result($conidgrupos);
+        $queryidgrupo = "SELECT `grupo`.`id` "
+                . "FROM `grupo`  "
+                . "WHERE `grupo`.`nombre` = ? ";
+        if ($stmtidgrupo = $conexion->prepare($queryidgrupo)) {
 
-            while ($stmtcongrupos->fetch()) {
-                $postgrupo = $conidgrupos;
-                $congruposrowasignado = mysql_fetch_array($congruposqueryasignado);
-            }
-            echo '<br>b ok'.$postgrupo.'<br>';};
+            // inicializamos el parámetro
+            $stmtidgrupo->bind_param('s', $postgrupo);
+
+            // ejecutamos la consulta
+            $stmtidgrupo->execute();
+            $stmtidgrupo->bind_result($conidgrupo);
+            // recuperamos la variable
+            $stmtidgrupo->fetch();
+            $postgrupo = $conidgrupo;
+        } echo $conidgrupo . "gañkjgñkabvnjrsw" . $postgrupo;
     }
     echo 'paso 1 ok';
     //Añadir tipo si no existe
     if (!is_numeric($posttipo)) {
         echo 'tipo no numerico';
-        $inserttipo = "INSERT INTO `palancia`.`tipo` (`id` ,`descripcion`)VALUES (NULL , ?);";
+        $inserttipo = "INSERT INTO `palancia`.`tipo` (`id` ,`descripcion`) VALUES (NULL , ?);";
         if ($stmtinserttipo = $conexion->prepare($inserttipo)) {
             echo "<div>registro tipo preparado.</div>";
         } else {
@@ -56,37 +58,28 @@ if ($_POST) {
         } else {
             die('Imposible guardar el registrodel tipo: ' . $conexion->error . 'Pongase en contacto con el administrador');
         }
-        $contipo = "SELECT id FROM `tipo` WHERE descripcion='?' ";
-        if ($stmtcontipo = $conexion->prepare($contipo)) {
-            if (!$stmtcontipo->execute()) {
-                die('Error de ejecución de la consulta. ' . $conexion->error);
-            };
-            $stmtqcontipo->bind_result($conidtipo);
+        $queryidtipo = "SELECT `tipo`.`id` "
+                . "FROM `tipo`  "
+                . "WHERE `tipo`.`descripcion` = ? ";
+        if ($stmtidtipo = $conexion->prepare($queryidtipo)) {
 
-            while ($stmtcontipo->fetch()) {
-                $posttipo = $conidtipo;
-                $contiporowasignado = mysql_fetch_array($contipoqueryasignado);
-            }
-        };
+            // inicializamos el parámetro
+            $stmtidtipo->bind_param('s', $posttipo);
+
+            // ejecutamos la consulta
+            $stmtidtipo->execute();
+            $stmtidtipo->bind_result($conidtipo);
+            // recuperamos la variable
+            $stmtidtipo->fetch();
+            $posttipo = $conidtipo;
+        } echo $conidtipo . "gañkjgñkabvnjrsw" . $posttipo;
     }
-    echo 'paso2 ok';
-    // insert query
-    $queryevento = "INSERT INTO `palancia`.`fiesta` ( `id` , `fecha` , `grupo_id` , `tipo_id` , `poblacion_id` ) "
-            . "VALUES (NULL , ?, ?, ?, ?);";
-    //echo $query, "<br>";
-    // prepare query for execution
-    if ($stmtevento = $conexion->prepare($queryevento)) {
-        echo "<div>registro evento preparado.</div>";
+    echo '<br>paso2 ok<br>';
+
+    if (is_numeric($postgrupo) && is_numeric($posttipo) && is_numeric($postpoblacion)) {
+        
     } else {
-        die('Imposible preparar el registro evento.' . $conexion->error);
-    }
-    // asociar los parámetros
-    $stmtevento->bind_param('siii', $postfecha, $postgrupo, $posttipo, $postpoblacion);
-    // Ejecutar la consulta
-    if ($stmtevento->execute()) {
-        echo "<div>Registro evento guardado.<br>Puede serguir añadiendo</div>";
-    } else {
-        die('Imposible guardar el registro evento : ' . $conexion->error . 'Pongase en contacto con el administrador');
+        die('Imposible preparar el registro del evento. Variables erroneas');
     }
 }
 ?>
