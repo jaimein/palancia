@@ -40,6 +40,7 @@ if ($_POST) {
             // recuperamos la variable
             $stmtidgrupo->fetch();
             $postgrupo = $conidgrupo;
+            mysqli_stmt_free_result($stmtidgrupo);
         } echo $conidgrupo . "gañkjgñkabvnjrsw" . $postgrupo;
     }
     echo 'paso 1 ok';
@@ -72,12 +73,27 @@ if ($_POST) {
             // recuperamos la variable
             $stmtidtipo->fetch();
             $posttipo = $conidtipo;
+            mysqli_stmt_free_result($stmtidtipo);
         } echo $conidtipo . "gañkjgñkabvnjrsw" . $posttipo;
     }
     echo '<br>paso2 ok<br>';
 
+    
+    
+    echo "grupo ".$postgrupo."<br>tipo ".$posttipo."<br>fecha ".$postfecha."<br>poblacion ".$postpoblacion;
     if (is_numeric($postgrupo) && is_numeric($posttipo) && is_numeric($postpoblacion)) {
-        
+        $querryevento = "INSERT INTO `palancia`.`fiesta` (`id` ,`fecha` ,`grupo_id` ,`tipo_id` ,`poblacion_id`) VALUES (NULL , ?, ?, ?, ?);";
+        if ($stmtevento = $conexion->prepare($querryevento)) {
+            echo "<div>registro evento preparado.</div>";
+        } else {
+            die('Imposible preparar el registro del evento.' . $conexion->error);
+        }
+        $stmtevento->bind_param('ssss',$postfecha,$postgrupo,$posttipo,$postpoblacion);
+        if ($stmtevento->execute()) {
+            echo "<div>Registro del evento guardado.<br>Puede serguir añadiendo</div>";
+        } else {
+            die('Imposible guardar el registrodel evento: ' . $conexion->error . 'Pongase en contacto con el administrador');
+        }
     } else {
         die('Imposible preparar el registro del evento. Variables erroneas');
     }

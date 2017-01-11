@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `grupo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `grupo`
@@ -81,25 +81,8 @@ INSERT INTO `grupo` (`id`, `nombre`) VALUES
 (1, 'Desconocido'),
 (2, 'TS'),
 (3, 'Hnos. Benet'),
-(4, 'Hnos. Orero'),
-(5, 'asdf'),
-(6, 'abc'),
-(10, 'poi'),
-(11, 'poi'),
-(12, 'poi'),
-(13, 'poi'),
-(14, 'poi'),
-(15, 'poi'),
-(16, 'poi'),
-(17, 'poi'),
-(18, 'poi'),
-(19, 'poi'),
-(20, 'poi'),
-(21, 'fdsa'),
-(22, 'fdsa'),
-(23, 'fdsa'),
-(24, 'fdsa'),
-(25, 'fdsa');
+(4, 'Hnos. Orero');
+
 
 -- --------------------------------------------------------
 
@@ -176,23 +159,20 @@ CREATE TABLE IF NOT EXISTS `tipo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(45) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=8 ;
 
 --
 -- Volcado de datos para la tabla `tipo`
 --
 
 INSERT INTO `tipo` (`id`, `descripcion`) VALUES
-(1, 'discomovil'),
-(2, 'verbena'),
-(3, 'toro embolado'),
-(4, 'entrada de toros'),
-(5, 'entrada de toros y caballos'),
-(6, 'vaquillas'),
-(7, 'desencajona'),
-(8, 'prueba'),
-(9, 'asdf'),
-(10, 'asdf');
+(1, 'Discomovil'),
+(2, 'Verbena'),
+(3, 'Toro embolado'),
+(4, 'Entrada de toros'),
+(5, 'Entrada de toros y caballos'),
+(6, 'Vaquillas'),
+(7, 'Desencajona');
 
 -- --------------------------------------------------------
 
@@ -223,7 +203,7 @@ INSERT INTO `usuarios` (`id`, `usuario`, `password`) VALUES
 --
 DROP TABLE IF EXISTS `buena`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `buena` AS select `fiesta`.`fecha` AS `fecha`,`grupo`.`nombre` AS `grupo`,`poblacion`.`poblacion` AS `poblacion`,`tipo`.`descripcion` AS `tipo` from (((`fiesta` join `poblacion`) join `tipo`) join `grupo`) where ((`poblacion`.`id` = `fiesta`.`poblacion_id`) and (`fiesta`.`tipo_id` = `tipo`.`id`) and (`grupo`.`id` = `fiesta`.`grupo_id`)) order by `fiesta`.`fecha`,`poblacion`.`poblacion`,`tipo`.`descripcion`,`fiesta`.`grupo_id`;
+CREATE VIEW `buena` AS select `fiesta`.`fecha` AS `fecha`,`grupo`.`nombre` AS `grupo`,`poblacion`.`poblacion` AS `poblacion`,`tipo`.`descripcion` AS `tipo` from (((`fiesta` join `poblacion`) join `tipo`) join `grupo`) where ((`poblacion`.`id` = `fiesta`.`poblacion_id`) and (`fiesta`.`tipo_id` = `tipo`.`id`) and (`grupo`.`id` = `fiesta`.`grupo_id`)) order by `fiesta`.`fecha`,`poblacion`.`poblacion`,`tipo`.`descripcion`,`fiesta`.`grupo_id`;
 
 --
 -- Restricciones para tablas volcadas
@@ -242,6 +222,7 @@ ALTER TABLE `fiesta`
 --
 ALTER TABLE `login_attempts`
   ADD CONSTRAINT `login_attempts_ibfk_1` FOREIGN KEY (`id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
