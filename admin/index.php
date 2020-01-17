@@ -8,10 +8,10 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <title>Fiestas Palancia</title>
-        <script type="text/JavaScript" src="js/sha512.js"></script> 
-        <script type="text/JavaScript" src="js/forms.js"></script>
-<link media="all" href="css/style.css" rel="stylesheet" type="text/css"></link>
-<link href="css/formcss.css" rel="stylesheet" type="text/css"/>
+        <script type="../text/JavaScript" src="js/sha512.js"></script> 
+        <script type="../text/JavaScript" src="js/forms.js"></script>
+<link media="all" href="../css/style.css" rel="stylesheet" type="text/css"></link>
+<link href="../css/formcss.css" rel="stylesheet" type="text/css"/>
     </head>
     <body> 
         <div id="wrapper">

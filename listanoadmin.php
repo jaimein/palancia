@@ -1,4 +1,4 @@
-<div class="login"><a class="login" href="./admin/index.php">Login</a></div>
+<div class="login"><a href="./admin/index.php">Login</a></div>
 <div>
 <h1>Listado de Fiestas</h1>
 <?php
