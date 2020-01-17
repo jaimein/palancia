@@ -3,7 +3,7 @@
 //include 'conexion.php';
 // Elegir los datos que deseamos recuperar de la tabla
 $query = "SELECT *  "
-        . "FROM buena ";
+    . "FROM buena ";
 if ($stmt = $conexion->prepare($query)) {
     if (!$stmt->execute()) {
         die('Error de ejecución de la consulta. ' . $conexion->error);
@@ -24,7 +24,7 @@ if ($stmt = $conexion->prepare($query)) {
     //recorrido por el resultado de la consulta
     while ($stmt->fetch()) {
         echo "<tr>";
-        echo '<td>'.$fecha . '</td>';
+        echo '<td>' . $fecha . '</td>';
         echo '<td>' . $grupo . '</td>';
         echo '<td>' . $poblacion . '</td>';
         echo '<td>' . $tipo . '</td>';

@@ -13,4 +13,3 @@ if ($conexion->connect_errno) { // Si se produce algún error finaliza con mensa
     die("Error de Conexión: " . $conexion->connect_error);
 }
 $conexion->set_charset("utf8");
-
