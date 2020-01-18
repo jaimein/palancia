@@ -138,3 +138,8 @@ div.login>a:hover {
 div.login {
     text-align: right;
 }
+
+.boton-login {
+    margin-left: 15px;
+    margin-right: 15px;
+}
