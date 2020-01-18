@@ -26,7 +26,7 @@ class modelo extends PDO
     {
 
         /* Los datos de la conexión los tomamos de config */
-        parent::__construct('mysql:host=' . Config::$hostname . ';dbname=' . Config::$nombre . '', Config::$usuario, Config::$clave);
+        parent::__construct('mysql:host=' . Config::$host . ';dbname=' . Config::$db_name . '', Config::$username, Config::$password);
         parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         parent::exec("set names utf8");
     }
