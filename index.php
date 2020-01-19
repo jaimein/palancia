@@ -9,8 +9,8 @@ and open the template in the editor.
 <head>
     <meta charset="UTF-8">
     <title>Fiestas Palancia</title>
-    <script type="text/JavaScript" src="js/sha512.js"></script>
-    <script type="text/JavaScript" src="js/forms.js"></script>
+    <!-- <script type="text/JavaScript" src="js/sha512.js"></script>
+    <script type="text/JavaScript" src="js/forms.js"></script> -->
     <link media="all" href="css/style.css" rel="stylesheet" type="text/css" />
     <link href="css/formcss.css" rel="stylesheet" type="text/css" />
 </head>
@@ -19,7 +19,7 @@ and open the template in the editor.
     <div id="wrapper">
         <div id="header">
             <div id="logo">
-                <img src="img/logo.jpg" width="75%" alt="logo"></img>
+                <img src="img/LOGO_FIESTAS_PALANCIA.jpg" width="20%" alt="logo"></img>
             </div>
             <div id="title">
                 Fiestas Palancia

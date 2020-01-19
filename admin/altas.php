@@ -1,95 +1,93 @@
 <h1>Alta Ordenador</h1>
 <?php
 // include conexión a la base de datos
-include 'conexion.php';
+//include 'conexion.php';
 ?>
 <?php
 if ($_POST) {
     // include conexión a la base de datos
-    include 'conexion.php';
+    $conexion = modelo::GetInstance();
     $postgrupo = $_POST['grupo'];
     $posttipo = $_POST['tipo'];
     $postfecha = $_POST['fecha'];
     $postpoblacion = $_POST['poblacion'];
+
     //Añadir grupo si no existe
     if (!is_numeric($postgrupo)) {
         $insertgrupo = "INSERT INTO `palancia`.`grupo` (`id` ,`nombre`)VALUES (NULL , ?);";
-        if ($stmtinsertgrupo = $conexion->prepare($insertgrupo)) {
+        if ($stmt = $conexion->prepare($insertgrupo)) {
             echo "<div>registro grupo preparado.</div>";
         } else {
             die('Imposible preparar el registro del grupo.' . $conexion->error);
         }
-        $stmtinsertgrupo->bind_param('s', $postgrupo);
-        if ($stmtinsertgrupo->execute()) {
+        $stmt->bindParam(1, $postgrupo);
+        if ($stmt->execute()) {
             echo "<div>Registro del grupo guardado.Puede serguir añadiendo</div>";
         } else {
             die('Imposible guardar el registrodel grupo: ' . $conexion->error . 'Pongase en contacto con el administrador');
         }
-        echo 'a ok';
-        $queryidgrupo = "SELECT `grupo`.`id` "
-                . "FROM `grupo`  "
-                . "WHERE `grupo`.`nombre` = ? ";
-        if ($stmtidgrupo = $conexion->prepare($queryidgrupo)) {
+        echo 'grupo insertado ok';
+        $queryidgrupo = "SELECT id "
+            . "FROM grupo  "
+            . "WHERE nombre = ? ";
+        if ($stmt = $conexion->prepare($queryidgrupo)) {
 
             // inicializamos el parámetro
-            $stmtidgrupo->bind_param('s', $postgrupo);
-
+            $stmt->bindParam(1, $postgrupo);
             // ejecutamos la consulta
             $stmtidgrupo->execute();
-            $stmtidgrupo->bind_result($conidgrupo);
-            // recuperamos la variable
-            $stmtidgrupo->fetch();
-            $postgrupo = $conidgrupo;
-            mysqli_stmt_free_result($stmtidgrupo);
-        } echo $conidgrupo . "gañkjgñkabvnjrsw" . $postgrupo;
+            foreach ($stmt as $row) {
+                $postgrupo = $row['id'];
+            }
+        }
     }
-    echo 'paso 1 ok';
+
     //Añadir tipo si no existe
     if (!is_numeric($posttipo)) {
         echo 'tipo no numerico';
         $inserttipo = "INSERT INTO `palancia`.`tipo` (`id` ,`descripcion`) VALUES (NULL , ?);";
-        if ($stmtinserttipo = $conexion->prepare($inserttipo)) {
+        if ($stmt = $conexion->prepare($inserttipo)) {
             echo "<div>registro tipo preparado.</div>";
         } else {
             die('Imposible preparar el registro del tipo.' . $conexion->error);
         }
-        $stmtinserttipo->bind_param('s', $posttipo);
+        $stmt->bindParam(1, $posttipo);
         if ($stmtinserttipo->execute()) {
             echo "<div>Registro del tipo guardado.<br>Puede serguir añadiendo</div>";
         } else {
             die('Imposible guardar el registrodel tipo: ' . $conexion->error . 'Pongase en contacto con el administrador');
         }
-        $queryidtipo = "SELECT `tipo`.`id` "
-                . "FROM `tipo`  "
-                . "WHERE `tipo`.`descripcion` = ? ";
-        if ($stmtidtipo = $conexion->prepare($queryidtipo)) {
+        $queryidtipo = "SELECT id "
+            . "FROM tipo  "
+            . "WHERE descripcion = ? ";
+        if ($stmt = $conexion->prepare($queryidtipo)) {
 
             // inicializamos el parámetro
-            $stmtidtipo->bind_param('s', $posttipo);
+            $stmt->bindParam(1, $postgrupo);
 
             // ejecutamos la consulta
-            $stmtidtipo->execute();
-            $stmtidtipo->bind_result($conidtipo);
-            // recuperamos la variable
-            $stmtidtipo->fetch();
-            $posttipo = $conidtipo;
-            mysqli_stmt_free_result($stmtidtipo);
-        } echo $conidtipo . "gañkjgñkabvnjrsw" . $posttipo;
+            $stmt->execute();
+            foreach ($stmt as $row) {
+                $posttipo = $row['id'];
+            }
+        }
     }
-    echo '<br>paso2 ok<br>';
 
-    
-    
-    echo "grupo ".$postgrupo."<br>tipo ".$posttipo."<br>fecha ".$postfecha."<br>poblacion ".$postpoblacion;
+
+
+
     if (is_numeric($postgrupo) && is_numeric($posttipo) && is_numeric($postpoblacion)) {
         $querryevento = "INSERT INTO `palancia`.`fiesta` (`id` ,`fecha` ,`grupo_id` ,`tipo_id` ,`poblacion_id`) VALUES (NULL , ?, ?, ?, ?);";
-        if ($stmtevento = $conexion->prepare($querryevento)) {
+        if ($stmt = $conexion->prepare($querryevento)) {
             echo "<div>registro evento preparado.</div>";
         } else {
             die('Imposible preparar el registro del evento.' . $conexion->error);
         }
-        $stmtevento->bind_param('ssss',$postfecha,$postgrupo,$posttipo,$postpoblacion);
-        if ($stmtevento->execute()) {
+        $stmt->bindParam(1, $postfecha);
+        $stmt->bindParam(2, $postgrupo);
+        $stmt->bindParam(3, $posttipo);
+        $stmt->bindParam(4, $postpoblacion);
+        if ($stmt->execute()) {
             echo "<div>Registro del evento guardado.<br>Puede serguir añadiendo</div>";
         } else {
             die('Imposible guardar el registrodel evento: ' . $conexion->error . 'Pongase en contacto con el administrador');
@@ -103,7 +101,7 @@ if ($_POST) {
     <table border='0'>
         <tr>
             <td>fecha</td>
-            <td><input type='datetime' name='fecha' min="<?php echo date("Y-m-d H:i:s"); ?>" value="<?php echo date("Y-m-d H:i:s"); ?>" required/></td>
+            <td><input type='datetime' name='fecha' min="<?php echo date("Y-m-d H:i:s"); ?>" value="<?php echo date("Y-m-d H:i:s"); ?>" required /></td>
         </tr>
         <tr>
             <td>grupo</td>
@@ -113,16 +111,14 @@ if ($_POST) {
                 <!-- Lista de opciones -->
                 <datalist id="itemsgrupo">
                     <?php
+                    $conexion = modelo::GetInstance();
                     $querrygrupos = "SELECT id, nombre FROM `grupo` ";
-                    if ($stmtquerrygrupos = $conexion->prepare($querrygrupos)) {
-                        if (!$stmtquerrygrupos->execute()) {
+                    if ($stmt = $conexion->prepare($querrygrupos)) {
+                        if (!$stmt->execute()) {
                             die('Error de ejecución de la consulta. ' . $conexion->error);
                         };
-                        $stmtquerrygrupos->bind_result($idgrupos, $nombregrupos);
-
-                        while ($stmtquerrygrupos->fetch()) {
-                            echo "<option value='" . $idgrupos . "'>" . $nombregrupos . "</option>";
-                            $querrygruposrowasignado = mysql_fetch_array($querrygruposqueryasignado);
+                        foreach ($stmt as $row) {
+                            echo "<option value='" . $row['id'] . "'>" . $row['nombre'] . "</option>";
                         }
                     };
                     ?>
@@ -138,16 +134,14 @@ if ($_POST) {
                 <!-- Lista de opciones -->
                 <datalist id="itemstipo">
                     <?php
+                    $conexion = modelo::GetInstance();
                     $querrytipo = "SELECT id, descripcion FROM `tipo` ";
-                    if ($stmtquerrytipo = $conexion->prepare($querrytipo)) {
-                        if (!$stmtquerrytipo->execute()) {
+                    if ($stmt = $conexion->prepare($querrytipo)) {
+                        if (!$stmt->execute()) {
                             die('Error de ejecución de la consulta. ' . $conexion->error);
                         };
-                        $stmtquerrytipo->bind_result($idtipo, $descripciontipo);
-
-                        while ($stmtquerrytipo->fetch()) {
-                            echo "<option value='" . $idtipo . "'>" . $descripciontipo . "</option>";
-                            $querrytiporowasignado = mysql_fetch_array($querrytipoqueryasignado);
+                        foreach ($stmt as $row) {
+                            echo "<option value='" . $row['id'] . "'>" . $row['descripcion'] . "</option>";
                         }
                     };
                     ?>
@@ -158,18 +152,16 @@ if ($_POST) {
             <td>poblacion</td>
             <td>
                 <select name='poblacion' required>
-                    <option value='' selected='selected' >Poblacion</option>
+                    <option value='' selected='selected'>Poblacion</option>
                     <?php
+                    $conexion = modelo::GetInstance();
                     $asignado = "SELECT id, poblacion FROM poblacion";
-                    if ($stmtasignado = $conexion->prepare($asignado)) {
-                        if (!$stmtasignado->execute()) {
+                    if ($stmt = $conexion->prepare($asignado)) {
+                        if (!$stmt->execute()) {
                             die('Error de ejecución de la consulta. ' . $conexion->error);
                         };
-                        $stmtasignado->bind_result($id, $descripcion);
-
-                        while ($stmtasignado->fetch()) {
-                            echo "<option value='" . $id . "'>" . $descripcion . "</option>";
-                            $rowasignado = mysql_fetch_array($queryasignado);
+                        foreach ($stmt as $row) {
+                            echo "<option value='" . $row['id'] . "'>" . $row['poblacion'] . "</option>";
                         }
                     };
                     ?>
@@ -181,9 +173,9 @@ if ($_POST) {
         <tr>
             <td></td>
             <td>
-                <input type="submit" name="save" value="Save"/>
+                <input type="submit" name="save" value="Save" />
                 <a href="./index.php">Volver al inicio</a>
             </td>
         </tr>
     </table>
-</form> 
+</form>
