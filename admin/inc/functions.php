@@ -37,7 +37,7 @@ function sec_session_start()
 function login($usuario, $password, $conexion)
 {
     // Usar consultas preparadas previene de los ataques SQL injection. 
-    $query = "SELECT id, usuario, password FROM usuarios WHERE usuario = :usuario LIMIT 1";
+    $query = "SELECT id, usuario, password, tipo FROM usuarios WHERE usuario = :usuario LIMIT 1";
     if ($stmt = $conexion->prepare($query)) {
         $stmt->bindParam(':usuario', $usuario);
         $stmt->execute();
@@ -46,6 +46,7 @@ function login($usuario, $password, $conexion)
             $id = $valor['id'];
             $user = $valor['usuario'];
             $db_password = $valor['password'];
+            $tipo = $valor['tipo'];
 
             // Si el usuario existe comprobamos que la cuenta no esté bloqueada
             // por haber hecho demasiados intentos.
@@ -63,6 +64,7 @@ function login($usuario, $password, $conexion)
                     // Esto es una protección contra ataques XSS
                     $user_id = preg_replace("/[^0-9]+/", "", $id);
                     $_SESSION['id'] = $id;
+                    $_SESSION['tipo'] = $tipo;
                     // Esto es una protección contra ataques XSS
                     $username = preg_replace("/[^a-zA-Z0-9_\-]+/", "", $usuario);
                     $_SESSION['usuario'] = $username;

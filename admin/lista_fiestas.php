@@ -25,7 +25,11 @@ if ($stmt = $conexion->prepare($query)) {
         echo '<td>' . $row['grupo'] . '</td>';
         echo '<td>' . $row['poblacion'] . '</td>';
         echo '<td>' . $row['tipo'] . '</td>';
-        //echo '<td colspan=0.5><img src=../img/basura.png height="25px"></img></td>';
+        if ($_SESSION['id']==1) {
+            echo '<td colspan=0.5><a href="./index.php?accion=eliminar&fecha='.urlencode($row['fecha']).'&grupo='.urlencode($row['grupo'])
+            .'&poblacion='.urlencode($row['poblacion']).'&tipo='.urlencode($row['tipo']).'&id='.urlencode($row['id']).'"><img src=../img/basura.png height="25px"></img></a></td>';
+        
+        }
         echo "</tr>";
     }
     // end table

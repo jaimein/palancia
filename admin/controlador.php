@@ -25,13 +25,15 @@ if (!login_check($conexion2)) { //no estas autorizado/logueado
 
     $accion = basename(filter_input(INPUT_GET, 'accion', $filter = FILTER_SANITIZE_STRING));
     switch ($accion) {
-        case 'login':
-            $accion = 'lista_fiestas';
-            echo "<div class=\"login\"> <a href=\"index.php?accion=logout\"> logout {$_SESSION['usuario']} </a></div>";
-            break;
+
         case 'logout':
             logout();
             $accion = 'login';
+            break;
+        case 'login':
+        case '':
+            $accion = 'lista_fiestas';
+            echo "<div class=\"login\"> <a href=\"index.php?accion=logout\"> logout {$_SESSION['usuario']} </a></div>";
     }
 
     if (!isset($accion)) {
