@@ -7,7 +7,7 @@ $db_name = "";
 $username = "";
 $password = "";
 
-class Config {
+class ConfigAdmin {
     public static $host = "";
     public static $db_name = "";
     public static $username = "";
