@@ -2,37 +2,34 @@
 <?php
 //include 'conexion.php';
 // Elegir los datos que deseamos recuperar de la tabla
+$conexion = modelo::GetInstance();
 $query = "SELECT *  "
     . "FROM buena ";
 if ($stmt = $conexion->prepare($query)) {
     if (!$stmt->execute()) {
         die('Error de ejecución de la consulta. ' . $conexion->error);
     }
-    //echo $query;
-    // recoger los datos
-    $stmt->bind_result($fecha, $grupo, $poblacion, $tipo);
-    //cabecera de los datos mostrados
+
     echo "<a href='index.php?accion=altas'>Alta Fiesta</a>";
-    echo "<table>"; //start table
-    //creating our table heading
+    echo "<table>"; 
     echo "<tr>";
     echo "<th>Fecha</th>";
     echo "<th>Grupo</th>";
     echo "<th>Poblacion</th>";
     echo "<th>Tipo</th>";
     echo "</tr>";
-    //recorrido por el resultado de la consulta
-    while ($stmt->fetch()) {
+    
+    foreach ($stmt as $row) {
         echo "<tr>";
-        echo '<td>' . $fecha . '</td>';
-        echo '<td>' . $grupo . '</td>';
-        echo '<td>' . $poblacion . '</td>';
-        echo '<td>' . $tipo . '</td>';
+        echo '<td>' . $row['fecha'] . '</td>';
+        echo '<td>' . $row['grupo'] . '</td>';
+        echo '<td>' . $row['poblacion'] . '</td>';
+        echo '<td>' . $row['tipo'] . '</td>';
         echo "</tr>\n";
     }
     // end table
     echo "</table>";
-    $stmt->close();
+
 } else {
     die('Imposible preparar la consulta. ' . $conexion->error);
 }
