@@ -19,7 +19,7 @@ and open the template in the editor.
     <div id="wrapper">
         <div id="header">
             <div id="logo">
-                <img src="img/logo.jpg" width="75%" alt="logo"></img>
+                <img src="img/LOGO_FIESTAS_PALANCIA.jpg" width="20%" alt="logo"></img>
             </div>
             <div id="title">
                 Fiestas Palancia
