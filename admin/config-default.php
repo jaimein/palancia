@@ -7,3 +7,9 @@ $db_name = "";
 $username = "";
 $password = "";
 
+class Config {
+    public static $host = "";
+    public static $db_name = "";
+    public static $username = "";
+    public static $password = "";
+   }
