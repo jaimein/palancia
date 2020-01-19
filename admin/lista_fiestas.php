@@ -25,7 +25,8 @@ if ($stmt = $conexion->prepare($query)) {
         echo '<td>' . $row['grupo'] . '</td>';
         echo '<td>' . $row['poblacion'] . '</td>';
         echo '<td>' . $row['tipo'] . '</td>';
-        echo "</tr>\n";
+        //echo '<td colspan=0.5><img src=../img/basura.png height="25px"></img></td>';
+        echo "</tr>";
     }
     // end table
     echo "</table>";
